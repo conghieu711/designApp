@@ -114,14 +114,23 @@ $bg-body-tab-current: #FFF;
 						top: 120px;
 						li{
 							list-style: none;
-							background: #222;
-							color: #FFF;
 							border-radius: 1px;
-							padding: 3px 10px;
-							margin-bottom: 8px;
+							padding: 8px 0;
 							font-size: 11px;
-							cursor: pointer;
 							position: relative;
+							text-align: left;
+							border-bottom: 1px solid #AAA;
+							cursor: pointer;
+							&:last-child{
+								border: none;
+							}
+							span{
+								cursor: move;
+								display: inline-block;
+								vertical-align: middle;
+								margin-right: 5px;
+								padding: 0 5px;
+							}
 						}
 					}
 					.tb-frames-main{
@@ -132,7 +141,7 @@ $bg-body-tab-current: #FFF;
 							left: 0;
 							top: 0;
 							&:first-child{
-								position: relative;
+								position: relative; 
 							}
 						}
 					}

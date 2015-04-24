@@ -6,6 +6,8 @@
 	////////////
 	String.prototype.format = function () {
 		var args = arguments;
+		($.isArray(args[0]))? args = args[0] : "";
+
 		return this.replace(/\{\{|\}\}|\{(\d+)\}/g, function (m, n) {
 			if (m == "{{") { return "{"; }
 			if (m == "}}") { return "}"; }
@@ -45,23 +47,25 @@
 			fileUploadHandle({
 				callback: function(){
 					$this.addClass('upload-small-ui');
-
-					var file = this.files[0],
-						reader = new FileReader();
+					var files = this.files;
 					
-					reader.onload = function(e){
-						var fileString = e.target.result;
-						$frameControl.trigger('frameControlUiConfig', {fileString: fileString, fileName: file.name});
-					}
-					reader.readAsDataURL(file)
+					$.each(files, function(){
+						var file = this,
+							reader = new FileReader();
+						reader.onload = function(e){
+							var fileString = e.target.result;
+							$frameControl.trigger('frameUI', {fileString: fileString, fileName: file.name});
+						}
+						reader.readAsDataURL(file);
+					})
 				}
 			})
 		})	
 
-		  /////////////////////
-		 // FRAME UI CONFIG //
-		/////////////////////
-		$tb_backend_design_app.on('frameControlUiConfig', '.tb-frame-control-ui', function(e, opts){
+		  //////////////
+		 // FRAME UI //
+		//////////////
+		$tb_backend_design_app.on('frameUI', '.tb-frame-control-ui', function(e, opts){
 			var $this = $(this),
 				fileString = opts.fileString,
 				fileName = opts.fileName,
@@ -72,15 +76,21 @@
 			var $frameItem = $('<div>', {id: 'f-{0}'.format(randID), class: 'tb-frame-item', html: '<img src="{0}"/>'.format(fileString)});
 			tBframes.append($frameItem);
 
-			var $listItem = $('<li>', {id: 'l-{0}'.format(randID), class: 'tb-frame-list-item', html: '{0}'.format(fileName)});
+			var $listItem = $('<li>', {id: 'l-{0}'.format(randID), class: 'tb-frame-list-item', html: '<span><i class="ion-android-more-vertical"></i></span> {0}'.format(fileName)});
 			tBFrameList.prepend($listItem);
 
 			// animate $listitem
 			animate_fadeIn($listItem);
 
 			// use jQuery ui sortable
-			//(!tBFrameList.hasClass('ui-sortable'))? tBFrameList.sortable({ stop: oderLayout }) : ""; 
-			(!tBFrameList.hasClass('ui-sortable'))? tBFrameList.sortable({ start: function( event, ui ) { this._index = ui.item.index(); }, stop: oderLayout }) : ""; 
+			var params = {
+				axis: "y",
+				cursor: "move",
+				handle: "span",
+				start: function( event, ui ) { this._index = ui.item.index(); },
+				stop: oderLayout,
+			};
+			(!tBFrameList.hasClass('ui-sortable'))? tBFrameList.sortable(params) : ""; 
 		})
 
 		  /////////////////
@@ -92,22 +102,47 @@
 				sub_id = $this.attr('id').split('-')[1],
 				$f_elem = $tb_backend_design_app.find('#f-{0}'.format(sub_id)),
 				$f_elem_parent = $f_elem.parent(),
-				$f_elem_clone = $f_elem.clone(),
 				index = $this.index(),
 				new_order = l_length - index;
-
-			if (new_order == 0) { $f_elem_parent.prepend($f_elem_clone); }
-			else if (new_order == l_length) { $f_elem_parent.append($f_elem_clone); }
+			
+			if (new_order == 0) { $f_elem_parent.prepend($f_elem); }
+			else if (new_order == l_length) { $f_elem_parent.append($f_elem); }
 			else { 
-				if (this_index < index) {
-					alert(1);
-					$f_elem_parent.find('.tb-frame-item').eq(new_order - 1).after($f_elem_clone); 
-				} else {
-					alert(2);
-					$f_elem_parent.find('.tb-frame-item').eq(new_order).after($f_elem_clone); 
-				}
-			}	
-			$f_elem.remove();			
+				if (this._index < index) 
+					$f_elem_parent.find('.tb-frame-item').eq(new_order - 1).after($f_elem); 
+			 	else 
+					$f_elem_parent.find('.tb-frame-item').eq(new_order).after($f_elem); 
+			}			
+		}
+
+		  //////////////////
+		 // OPEN TOOLBOX //
+		//////////////////
+		$tb_backend_design_app.on('click', '.tb-frame-list-item', function(e){
+			var data = [
+				Math.random().toString(36).substr(2, 12),
+				'This is a ',
+				'designApp',
+			];
+			var html_resull = loadTemplate('assets/js/js-template/tool-box.html', data);
+			console.log(html_resull);
+		})
+
+		  ///////////////////
+		 // LAOD TEMPLATE //
+		///////////////////
+		var cache_temp = [];
+		var loadTemplate = function(tempURL, data){
+			var templateHTML = "";
+
+			if(cache_temp[tempURL]){
+				templateHTML = cache_temp[tempURL];
+			}else{
+				$.ajax({ async: false, url: tempURL, success: function(temp){ templateHTML = temp; } })
+				cache_temp[tempURL] = templateHTML;
+			}
+
+			return templateHTML.format(data);
 		}
 	})
 })(jQuery)

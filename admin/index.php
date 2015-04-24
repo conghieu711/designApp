@@ -44,7 +44,7 @@
 						</div>
 					</div>
 				</div>
-				<input type="file" id="field_upload_frame" style="display: none;">
+				<input type="file" id="field_upload_frame" multiple style="display: none;">
 			</div>
 		</div>
 	</div>
