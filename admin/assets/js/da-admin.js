@@ -4,14 +4,14 @@
 	  ////////////
 	 // HELPER //
 	////////////
-	String.prototype.format = function () {
-		var args = arguments;
-		($.isArray(args[0]))? args = args[0] : "";
-
-		return this.replace(/\{\{|\}\}|\{(\d+)\}/g, function (m, n) {
-			if (m == "{{") { return "{"; }
-			if (m == "}}") { return "}"; }
-			return args[n];
+	String.prototype.format = function() {
+		var args;
+		args = arguments;
+		if (args.length === 1 && args[0] !== null && typeof args[0] === 'object') {
+			args = args[0];
+		}
+		return this.replace(/{([^}]*)}/g, function(match, key) {
+			return (typeof args[key] !== "undefined" ? args[key] : match);
 		});
 	};
 	var animate_fadeIn = function(elem, time){
@@ -26,9 +26,45 @@
 		})
 	}
 
-	// DOCUMENT ready
+	  ////////////////////
+	 // DOCUMENT READY //
+	////////////////////
 	$(function(){
-		var $tb_backend_design_app = $('#tb_backend_design_app');
+		var $tb_backend_design_app = $('#tb_backend_design_app'),
+			$tb_header_tabs = $tb_backend_design_app.find('.tb-header-tabs ul').first(),
+			$tb_body_tabs = $tb_backend_design_app.find('.tb-body-tabs');
+
+		  /////////////////////////////
+		 // ADD MORE AND SELECT TAB //
+		/////////////////////////////
+		var tab_content_html_default = $tb_body_tabs.find('.tb-current-tab').html();
+		$tb_backend_design_app.on('click', '#add-more-frame', function(e){
+			e.preventDefault();
+			e.stopPropagation();
+
+			var randID = Math.random().toString(36).substr(2, 12),
+				$li = $('<li>', { class: 'tb-tab-nav', html: '<a href="#" data-tab-name="{0}">New Frame</a>'.format(randID) }),
+				$content = $('<div>', { class: 'body-tab', html: tab_content_html_default }).attr('data-tab-name', randID);
+
+			$tb_header_tabs.append($li);
+			$tb_body_tabs.append($content);
+
+			// active new tab
+			$li.find('a').trigger('click');
+		})
+
+		$tb_header_tabs.on('click', '.tb-tab-nav a', function(e){
+			e.preventDefault();
+			e.stopPropagation();
+
+			var $this = $(this),
+				tab_name = $this.data('tab-name');
+
+			$this.parent('li').addClass('tb-current-tab').siblings().removeClass('tb-current-tab');	
+			$tb_body_tabs.find('.body-tab[data-tab-name="{0}"]'.format(tab_name))
+			.addClass('tb-current-tab').siblings().removeClass('tb-current-tab');
+		})
+
 
 		  //////////////////
 		 // UPLOAD FRAME //
@@ -119,11 +155,11 @@
 		 // OPEN TOOLBOX //
 		//////////////////
 		$tb_backend_design_app.on('click', '.tb-frame-list-item', function(e){
-			var data = [
-				Math.random().toString(36).substr(2, 12),
-				'This is a ',
-				'designApp',
-			];
+			var data = {
+				name: 'Hieu',
+				old: '24',
+				team: 'Bears',
+			};
 			var html_resull = loadTemplate('assets/js/js-template/tool-box.html', data);
 			console.log(html_resull);
 		})

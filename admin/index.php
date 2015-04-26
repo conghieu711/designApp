@@ -27,14 +27,14 @@
 			<div id="tb_backend_design_app" class="row tb-design-app-main">
 				<div class="tb-header-tabs">
 					<ul>
-						<li><a href="#" class="tb-current-tab">First Frame</a></li>
-						<li id="add-more-frame"><a href="#"><i class="ion-ios-plus"></i>  Add New Frame</a></li>
-					</ul>
+						<li class="tb-tab-nav tb-current-tab"><a href="#" data-tab-name="first-tab">First Frame</a></li><!--
+					--></ul>
+					<span id="add-more-frame"><a href="#!"><i class="fa fa-plus-square"></i>  Add more</a></span>
 				</div>
 				<div class="tb-body-tabs">
-					<div class="body-tab tb-current-tab">
+					<div class="body-tab tb-current-tab" data-tab-name="first-tab">
 						<div class="body-tab-inner">
-							<label for="field_upload_frame" class="tb-area-upload-frame">
+							<label for="field_upload_frame" class="tb-area-upload-frame" title="upload">
 								<div class="tb-upload-icon"><i class="ion-ios-cloud-upload"></i></div>
 							</label>
 							<div class="tb-frame-control-ui">
