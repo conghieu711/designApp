@@ -4,6 +4,7 @@ $navtabs-color-current: #FFF;
 $bg-navtabs-current: #111;
 $bg-body-tab-current: #FFF;
 $add-more-frame-color: #3B9128;
+$featured-color: #111;
 
 @keyframes animate_rightToLeft{
 	from{ transform: translateX(50px); opacity: 0; }
@@ -22,6 +23,17 @@ $add-more-frame-color: #3B9128;
 .tb-design-app-main{
 	font-weight: 300;
 	margin: 20px 0;
+	input[type="text"], select, textarea{
+		padding: 10px 14px;
+		width: 100%;
+		border: none;
+		border-bottom: solid 1px #D0D0D0;
+		transition: .4s;
+		-webkit-transition: .4s;
+		&:hover, &:focus{
+			border-color: $featured-color;
+		}
+	}
 	a{
 		outline: none;
 		transition: .3s;
@@ -30,6 +42,18 @@ $add-more-frame-color: #3B9128;
 	ul{
 		margin: 0;
 		padding: 0;
+	}
+	.tb-form-group{
+		margin-bottom: 10px;
+		label{
+			font-weight: normal;
+			min-width: 120px;
+			max-width: 150px;
+		}
+		.tb-fg-field{
+			display: inline-block;
+			width: calc(100% - 154px);
+		}
 	}
 	.tb-header-tabs{
 		ul{
@@ -172,6 +196,23 @@ $add-more-frame-color: #3B9128;
 					}
 				}
 			}
+		}
+	}
+	.tb-layout-config-main{
+		.tb-layout-config-item{
+			.tb-lcii-title{
+				font-weight: normal;
+				text-transform: uppercase;
+				padding: 0;
+				margin: 0 0 10px 0;
+			}
+			.tb-lcii-blog{
+				.tb-lciib-inner{
+					margin-top: 30px;
+					padding: 20px;
+					background: #FFF;
+				}
+			}	
 		}
 	}
 }

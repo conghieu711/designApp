@@ -17,6 +17,9 @@
 	<link rel="stylesheet" type="text/css" href="assets/scss/style.php/style.scss">
 	<link rel="stylesheet" type="text/css" href="assets/scss/style.php/da-admin.scss">
 	<script type="text/javascript" src="assets/js/da-admin.js"></script>
+	<script type="text/javascript">
+		var JS_TEMP = 'assets/js/js-template/';
+	</script>
 </head>
 <body>
 	<div id="page">
@@ -44,9 +47,13 @@
 						</div>
 					</div>
 				</div>
+				<div class="tb-layout-config-main"></div>
 				<input type="file" id="field_upload_frame" multiple style="display: none;">
 			</div>
 		</div>
 	</div>
+	<footer id="footer">
+		© <?php echo date('Y'); ?> <a href="#">Themebears</a>
+	</footer>
 </body>
 </html>

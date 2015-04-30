@@ -1,13 +1,23 @@
 @import url('http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css');
 @import url('http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css');
-@import url(http://fonts.googleapis.com/css?family=Poiret+One);
+@import url(http://fonts.googleapis.com/css?family=Dosis:400,300,200,700);
 
 html, body{
 	background: $bg_main;
 	color: $color_main;
-	font-family: 'Poiret One', cursive;
+	font-family: 'Dosis', sans-serif;
+	font-weight: 300;
 }
-.title{
-	text-transform: uppercase;
+
+#footer{
+	a{
+		color: #D82765;
+	}	
+	margin-top: 40px;
+	width: 100%;
+	padding: 30px 0;
+	background: #111;
+	color: #FFF;
+	text-align: center;
 	letter-spacing: 3px;
-} 
+}
