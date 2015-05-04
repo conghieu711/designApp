@@ -12,6 +12,10 @@
 	<!-- Bootstrap lib -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+	<!-- Sweetalert lib -->
+	<link rel="stylesheet" href="assets/css/sweetalert.css">
+	<script type="text/javascript" src="assets/js/sweetalert.min.js"></script>
 	
 	<!-- Stylesheet + Script -->
 	<link rel="stylesheet" type="text/css" href="assets/scss/style.php/style.scss">

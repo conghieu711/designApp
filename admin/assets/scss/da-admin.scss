@@ -28,10 +28,29 @@ $featured-color: #111;
 		width: 100%;
 		border: none;
 		border-bottom: solid 1px #D0D0D0;
+		border-radius: 0;
+		background: transparent;
+		outline: none;
 		transition: .4s;
 		-webkit-transition: .4s;
 		&:hover, &:focus{
 			border-color: $featured-color;
+		}
+	}
+	button.tb-btn{
+		padding: 8px;
+		background: $featured-color;
+		color: #FFF;
+		border: none;
+		text-transform: uppercase;
+		letter-spacing: 2px;
+		transition: .4s;
+		-webkit-transition: .4s;
+		i{
+			margin-right: 5px;
+		}
+		&:hover{
+			@include background-opacity($featured-color, .9);
 		}
 	}
 	a{
@@ -47,8 +66,13 @@ $featured-color: #111;
 		margin-bottom: 10px;
 		label{
 			font-weight: normal;
-			min-width: 120px;
-			max-width: 150px;
+			width: 150px;
+			position: relative;
+			&:after{
+				content: ":";
+				position: absolute;
+				right: 0;
+			}
 		}
 		.tb-fg-field{
 			display: inline-block;
@@ -71,6 +95,18 @@ $featured-color: #111;
 					letter-spacing: 1px;
 					@include background-opacity(#FFF, .3);
 					color: #111;
+					position: relative;
+					&.pending:after{
+						content: "";
+						position: absolute;
+						left: 5px;
+						top: 5px;
+						width: 6px;
+						height: 6px;
+						border-radius: 50%;
+						background: #EA3535;
+						z-index: 1;
+					}
 				}
 				&:hover{
 					a{
@@ -173,12 +209,22 @@ $featured-color: #111;
 							&:last-child{
 								border: none;
 							}
+							&.current{
+								font-weight: bold;
+							}
 							span{
-								cursor: move;
 								display: inline-block;
 								vertical-align: middle;
 								margin-right: 5px;
 								padding: 0 5px;
+								&.layout-move{
+									cursor: move;
+								}
+								&.layout-remove{
+									&:hover{
+										color: #E53010;
+									}
+								}
 							}
 						}
 					}
