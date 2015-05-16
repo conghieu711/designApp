@@ -23,6 +23,7 @@ $featured-color: #111;
 .tb-design-app-main{
 	font-weight: 300;
 	margin: 20px 0;
+	font-size: 16px;
 	input[type="text"], select, textarea{
 		padding: 10px 14px;
 		width: 100%;
@@ -36,6 +37,9 @@ $featured-color: #111;
 		&:hover, &:focus{
 			border-color: $featured-color;
 		}
+	}
+	textarea{
+		background: #FAFAFA;
 	}
 	button.tb-btn{
 		padding: 8px;
@@ -62,6 +66,39 @@ $featured-color: #111;
 		margin: 0;
 		padding: 0;
 	}
+	.tb-hr{
+		border: medium none;
+	    height: 10px;
+	    margin: 30px 0 10px;
+	    padding: 0;
+	    width: 100%;
+	    position: relative;
+	    &:after{
+	    	border: 1px dashed #d0d0d0;
+		    content: "";
+		    position: absolute;
+		    width: 100%;
+		    z-index: 0;
+	    }
+	}
+	.toggle-blog-js{
+		position: relative;
+		.toggle-blog-btn{
+			cursor: pointer;
+		    font-size: 22px;
+		    height: 40px;
+		    line-height: 40px;
+		    position: absolute;
+		    right: 0px;
+		    text-align: center;
+		    top: 0px;
+		    width: 40px;
+		    background: #FAFAFA;
+		}
+	}
+	.tb-toggle-blog-content.blog-hide{
+		display: none;
+	}
 	.tb-form-group{
 		margin-bottom: 10px;
 		label{
@@ -77,6 +114,9 @@ $featured-color: #111;
 		.tb-fg-field{
 			display: inline-block;
 			width: calc(100% - 154px);
+			&.full{
+				width: 100%;
+			}
 		}
 	}
 	.tb-header-tabs{
@@ -249,8 +289,8 @@ $featured-color: #111;
 			.tb-lcii-title{
 				font-weight: normal;
 				text-transform: uppercase;
-				padding: 0;
-				margin: 0 0 10px 0;
+				padding: 10px 0;
+				margin: 0;
 			}
 			.tb-lcii-blog{
 				.tb-lciib-inner{

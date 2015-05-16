@@ -58,7 +58,8 @@
 						data_save = $data_tag.data('layout-save');
 
 					$data_tag.data('layout-save', $.extend({}, data_save, updateData));
-					console.log($data_tag.data('layout-save'));
+					//console.log($data_tag.data('layout-save'));
+					return $data_tag.data('layout-save');
 				}
 
 				  ///////////////////
@@ -73,11 +74,11 @@
 						templateHTML = cache_temp[tempURL];
 					}else{
 						$.ajax({ 
-							type: 'POST', 
-							async: false, 
-							url: tempURL, 
-							data: data,
-							success: function(temp){ 
+							type 	: 'POST', 
+							async 	: false, 
+							url 	: tempURL, 
+							data 	: data,
+							success : function(temp){ 
 								templateHTML = temp; 
 							} 
 						})
@@ -85,7 +86,32 @@
 						if(cache == true){ cache_temp[tempURL] = templateHTML };
 					}
 
-					return templateHTML.format(data);
+				 	var rendered = Mustache.render(templateHTML, data);
+    				return rendered;
+				}
+
+				  /////////////////
+				 // TOGGLE BLOG //
+				/////////////////
+				$.fn.applyToggleBlog = function(){
+					return $(this).find('.toggle-blog-js').each(function(){
+						var $this = $(this),
+							$tb_toggle_blog_content = $this.find('.tb-toggle-blog-content'),
+							$toggle_blog_btn = $('<span>', {class: 'toggle-blog-btn', html: '<i class="ion-ios-plus-empty"></i>'});
+						if($this.find('.toggle-blog-btn').length > 0){ return; }
+						
+						$toggle_blog_btn.on('click', function(){
+							//$tb_toggle_blog_content.toggleClass('blog-hide');
+							if($tb_toggle_blog_content.hasClass('blog-hide')){
+								$tb_toggle_blog_content.removeClass('blog-hide');
+								$toggle_blog_btn.html('<i class="ion-ios-plus-empty"></i>');
+							}else{
+								$tb_toggle_blog_content.addClass('blog-hide');
+								$toggle_blog_btn.html('<i class="ion-ios-minus-empty"></i>');
+							}
+						})
+						$this.prepend($toggle_blog_btn);
+					})
 				}
 
 				  /////////////////////
@@ -95,13 +121,14 @@
 					var $this = $(this),
 						dataLayout = $this.data('layout-save'),
 						data = {
-							tabID: _tabID,
-							framename: $this.html(),
-							status: dataLayout.status,
+							tabID 		: _tabID,
+							framename 	: $this.html(),
+							status 		: dataLayout.status,
+							noted 		: dataLayout.noted,
 						};
 
 					var result_html = loadTemplate('{0}frame-info.php'.format(JS_TEMP), data);
-					$tb_layout_config_main.html(result_html);
+					$tb_layout_config_main.html(result_html).applyToggleBlog();
 				}
 
 				  /////////////////////////////////
@@ -125,13 +152,13 @@
 				// delete frame btn
 				$tb_backend_design_app.on('click', '.frame-info-js button.delete-frame-js', function(){
 					swal({
-					  	title: "Are you sure?",
-					  	text: "You will not be able to recover this frame!",
-					  	type: "warning",
-					  	showCancelButton: true,
-					  	confirmButtonColor: "#DD6B55",
-					  	confirmButtonText: "Yes, delete it!",
-					  	closeOnConfirm: false
+					  	title 				: "Are you sure?",
+					  	text 				: "You will not be able to recover this frame!",
+					  	type 				: "warning",
+					  	showCancelButton 	: true,
+					  	confirmButtonColor 	: "#DD6B55",
+					  	confirmButtonText 	: "Yes, delete it!",
+					  	closeOnConfirm 		: false
 					},
 					function(){
 						$tb_header_tabs.find('a[data-tab-name="{0}"]'.format(_tabID)).parent('li').remove();
@@ -139,6 +166,11 @@
 						$tb_layout_config_main.find('.tb-layout-config-item[data-tabid="{0}"]'.format(_tabID)).remove();
 					  	swal("Deleted!", "This frame has been deleted.", "success");
 					});
+				})
+				// add note
+				$tb_backend_design_app.on('input', '.frame-info-js textarea.tb-note-js', function(){
+					var value = $(this).val();
+					console.log(updateData({noted: value}));
 				})
 
 				  /////////////////////////////
@@ -244,7 +276,7 @@
 					var $frameItem = $('<div>', {id: '{0}-f-{1}'.format(_tabID, randID), class: 'tb-frame-item', html: '<img src="{0}" data-frame-name="{1}" data-status="{2}"/>'.format(fileString, fileName, 'published')});
 					tBframes.append($frameItem);
 
-					var $listItem = $('<li>', {id: '{0}-l-{1}'.format(_tabID, randID), class: 'tb-frame-list-item', html: '<span class="layout-move" title="order"><i class="ion-android-more-vertical"></i></span> <span class="layout-remove" title="remove"><i class="ion-android-cancel"></i></span> <span class="layout-display" title="display"><i class="ion-eye-disabled"></i></span> <span class="layout-name">{0}</span>'.format(fileName)});
+					var $listItem = $('<li>', {id: '{0}-l-{1}'.format(_tabID, randID), class: 'tb-frame-list-item', html: '<span class="layout-move" title="order"><i class="ion-arrow-move"></i></span> <span class="layout-remove" title="remove"><i class="ion-android-cancel"></i></span> <span class="layout-display" title="display"><i class="ion-eye-disabled"></i></span> <span class="layout-name">{0}</span>'.format(fileName)});
 					tBFrameList.prepend($listItem);
 
 					// animate $listitem
@@ -258,11 +290,11 @@
 
 					// use jQuery ui sortable
 					var params = {
-						axis: "y",
-						cursor: "move",
-						handle: "span.layout-move",
-						start: function( event, ui ) { this._index = ui.item.index(); },
-						stop: oderLayout,
+						axis 	: "y",
+						cursor 	: "move",
+						handle 	: "span.layout-move",
+						start 	: function( event, ui ) { this._index = ui.item.index(); },
+						stop 	: oderLayout,
 					};
 					(!tBFrameList.hasClass('ui-sortable'))? tBFrameList.sortable(params) : ""; 
 				})
@@ -357,7 +389,7 @@
 						},
 						result_html = loadTemplate('{0}layout-item-config.html'.format(JS_TEMP), data, true);
 
-					$tb_layout_config_main.html(result_html);
+					$tb_layout_config_main.html(result_html).applyToggleBlog();
 				})
 
 				  //////////////////////////////////
