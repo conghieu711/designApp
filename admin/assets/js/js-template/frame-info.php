@@ -47,6 +47,14 @@
 	</div>
 
 	<div class="tb-lcii-blog tb-blog-right col-md-6">
-
+		<!-- Noted -->
+		<div class="tb-lciib-inner toggle-blog-js">
+			<h4 class="tb-lcii-title">Layouts info</h4>
+			<div class="tb-toggle-blog-content">
+				<div class="layout-info-content">
+					
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

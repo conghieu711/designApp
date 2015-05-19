@@ -12,6 +12,9 @@
 	<!-- mustache.js -->
 	<script type="text/javascript" src="assets/js/mustache.js"></script>
 
+	<!-- color-thief.js -->
+	<script type="text/javascript" src="assets/js/color-thief.js"></script>
+
 	<!-- Bootstrap lib -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
