@@ -1,34 +1,20 @@
-<div class="tb-layout-config-item row frame-layout-js" data-tabid="{{tabID}}">
-	<div class="tb-lcii-blog tb-blog-left col-md-6">
-		<div class="tb-lciib-inner toggle-blog-js">
-			<h4 class="tb-lcii-title">Layout info</h4>
-			<div class="tb-toggle-blog-content">
-				<div class="tb-form-group">
-					<label>Layout name </label>
-					<div class="tb-fg-field">
-						<input type="text" class="tb-layoutname-js" name="tb-layoutname-js" placeholder="layout name" value="{{layoutname}}">
-					</div>
-				</div>
-			</div>
-		</div>
+<div class="tb-form-group">
+	<label>Layout name </label>
+	<div class="tb-fg-field">
+		<input type="text" class="tb-layoutname-js" name="tb-layoutname-js" placeholder="layout name" value="{{layoutname}}">
 	</div>
-	<div class="tb-lcii-blog tb-blog-right col-md-6">
-		<div class="tb-lciib-inner toggle-blog-js">
-			<h4 class="tb-lcii-title">Colors</h4>
-			<div class="tb-toggle-blog-content">
-				<div class="tb-form-group">
-					<label>Original color</label>
-					<div class="tb-fg-field">
-						<input type="text" class="tb-original-color-js" name="tb-original-color-js" placeholder="original color" value="">
-					</div>
-				</div>
-				<div class="tb-form-group">
-					<label>New color</label>
-					<div class="tb-fg-field">
-						<input type="text" class="tb-new-color-js" name="tb-new-color-js" placeholder="new color" value="">
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+</div>
+<hr class="tb-hr"/>
+<h4 class="tb-lcii-title">
+	Colors 
+	<a id="tb_add_color_js" class="tb_add_color" href="#" title="Add color">
+		<i class="fa fa-plus-square"></i>
+	</a>
+</h4>
+<div class="tb-form-group">
+	<ul class="tb-color-items">
+		{{#colors}}
+			{{& colorview}}	
+		{{/colors}}
+	</ul>
 </div>

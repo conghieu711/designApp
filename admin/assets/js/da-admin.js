@@ -40,7 +40,8 @@
 					$tb_header_tabs = $tb_backend_design_app.find('.tb-header-tabs ul').first(),
 					$tb_body_tabs = $tb_backend_design_app.find('.tb-body-tabs'),
 					$tb_layout_config_main = $tb_backend_design_app.find('.tb-layout-config-main'),
-					_tabID;
+					_tabID,
+					colorThief = new ColorThief();
 
 				  /////////////////////////////
 				 // SET DATA LAYOUT DEFAULT //
@@ -58,7 +59,7 @@
 						data_save = $data_tag.data('layout-save');
 
 					$data_tag.data('layout-save', $.extend({}, data_save, updateData));
-					//console.log($data_tag.data('layout-save'));
+					console.log($data_tag.data('layout-save'));
 					return $data_tag.data('layout-save');
 				}
 
@@ -170,7 +171,7 @@
 				// add note
 				$tb_backend_design_app.on('input', '.frame-info-js textarea.tb-note-js', function(){
 					var value = $(this).val();
-					console.log(updateData({noted: value}));
+					updateData({noted: value});
 				})
 
 				  /////////////////////////////
@@ -251,14 +252,19 @@
 					var $body_tab_current = $('.body-tab[data-tab-name="{0}"]'.format(_tabID)),
 						$tb_frames_main = $body_tab_current.find('.tb-frames-main'),
 						frameData = [];
-
 					$tb_frames_main.find('.tb-frame-item').reverse().each(function(){
 						var $this = $(this),
-							$img_inner = $this.find('img');
+							$img_inner = $this.find('img'),
+							dataImg = $img_inner.attr('src'),
+							color = colorThief.getColor($img_inner[0]);
 
-						frameData.push({name: $img_inner.data('frame-name'),src: $img_inner.attr('src'), status: $img_inner.data('status')});
+						frameData.push({
+							name: $img_inner.data('frame-name'),
+							src: dataImg, 
+							status: $img_inner.data('status'),
+							colors: [{color: color, default: 1, dataImg: dataImg}],
+						});
 					})
-
 					updateData({frames: frameData});
 				}
 
@@ -283,7 +289,8 @@
 					animate_fadeIn($listItem);
 
 					// set data frame
-					setDataFrame();
+					setTimeout(setDataFrame, 100);
+					
 
 					// syn handle
 					synHandleLayout($listItem, $frameItem);
@@ -386,17 +393,27 @@
 						data = {
 							tabID: _tabID,
 							layoutname: data_layout_current.name,
+							colors: data_layout_current.colors,
+							colorview: function(){
+								if(!this){ return false; }
+
+								var active = (this.default == 1)? "color-active" : "",
+									html = "<li class='tb-color-item {0}' style='background: rgb({1})'></li>".format(active, this.color);
+								
+								return html;
+							},
 						},
 						result_html = loadTemplate('{0}layout-item-config.html'.format(JS_TEMP), data, true);
 
-					$tb_layout_config_main.html(result_html).applyToggleBlog();
+					$tb_layout_config_main.find('.layout-info-content').html(result_html).applyToggleBlog();
 				})
 
 				  //////////////////////////////////
 				 // CONROLLER FIELDS LAYOUT INFO //
 				//////////////////////////////////
+
 				// update frame name field
-				$tb_backend_design_app.on('input', '.frame-layout-js input.tb-layoutname-js', function(){
+				$tb_backend_design_app.on('input', '.frame-info-js input.tb-layoutname-js', function(){
 					var value = $(this).val();
 					$tb_body_tabs.find('.body-tab[data-tab-name="{0}"]'.format(_tabID))
 					.find('.tb-frame-list-item')
@@ -407,7 +424,5 @@
 			}
 		};
 		daAdmin.init();
-
-		
 	})
 })(jQuery)
